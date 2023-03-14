@@ -1,11 +1,16 @@
 // Write your Pizza Builder JavaScript in this file.
-let finalPrice = 13;
-// let totalPrice = document
-//   .getElementsByClassName('.panel.price')
-//   .getElementsByTagName('strong').innerText;
 
 // Constants
 const basePrice = 10;
+let finalPrice = basePrice;
+let subtotal = document.getElementsByTagName('strong');
+const counterPrices = {
+  pepperoni: false,
+  mushrooms: false,
+  greenPeppers: false,
+  whiteSauce: false,
+  glutenFreeCrust: false
+};
 const ingredients = {
   pepperoni: { name: 'pepperoni', price: 1 },
   mushrooms: { name: 'Mushrooms', price: 1 },
@@ -236,7 +241,51 @@ function renderPrice() {
       .getElementsByTagName('li')[4].style.visibility = 'hidden';
   }
 
-  totalPrice = `$${finalPrice}`;
+  //price counter
+
+  if (state.pepperoni && !counterPrices.pepperoni) {
+    finalPrice += 1;
+    counterPrices.pepperoni = true;
+  } else if (!state.pepperoni && counterPrices.pepperoni) {
+    finalPrice -= 1;
+    counterPrices.pepperoni = false;
+  }
+
+  if (state.mushrooms && !counterPrices.mushrooms) {
+    finalPrice += 1;
+    counterPrices.mushrooms = true;
+  } else if (!state.mushrooms && counterPrices.mushrooms) {
+    finalPrice -= 1;
+    counterPrices.mushrooms = false;
+  }
+
+  if (state.greenPeppers && !counterPrices.greenPeppers) {
+    finalPrice += 1;
+    counterPrices.greenPeppers = true;
+  } else if (!state.greenPeppers && counterPrices.greenPeppers) {
+    finalPrice -= 1;
+    counterPrices.greenPeppers = false;
+  }
+
+  if (state.whiteSauce && !counterPrices.whiteSauce) {
+    finalPrice += 3;
+    counterPrices.whiteSauce = true;
+  } else if (!state.whiteSauce && counterPrices.whiteSauce) {
+    finalPrice -= 3;
+    counterPrices.whiteSauce = false;
+  }
+
+  if (state.glutenFreeCrust && !counterPrices.glutenFreeCrust) {
+    finalPrice += 5;
+    counterPrices.glutenFreeCrust = true;
+  } else if (!state.glutenFreeCrust && counterPrices.glutenFreeCrust) {
+    finalPrice -= 5;
+    counterPrices.glutenFreeCrust = false;
+  }
+
+  //subtotal
+  subtotal.innerText = `$${finalPrice}`;
+  // subtotal.innerText = newSubtotal;
 }
 
 renderEverything();
@@ -246,62 +295,38 @@ document
   .querySelector('.btn.btn-pepperoni')
   .addEventListener('click', function () {
     state.pepperoni = !state.pepperoni;
-    if (state.pepperoni) {
-      finalPrice += 1;
-    } else {
-      finalPrice -= 1;
-    }
+
     renderEverything();
   });
 
+// Iteration 1: Add click event listener on `<button class="btn btn-mushrooms">`
 document
   .querySelector('.btn.btn-mushrooms')
   .addEventListener('click', function () {
     state.mushrooms = !state.mushrooms;
-    if (state.mushrooms) {
-      finalPrice += 1;
-    } else {
-      finalPrice -= 1;
-    }
+
     renderEverything();
   });
 
+// Iteration 1: Add click event listener on `<button class="btn btn-green-peppers">`
 document
   .querySelector('.btn.btn-green-peppers')
   .addEventListener('click', function () {
     state.greenPeppers = !state.greenPeppers;
-    if (state.greenPeppers) {
-      finalPrice += 1;
-    } else {
-      finalPrice -= 1;
-    }
+
     renderEverything();
   });
 
+// Iteration 2: Add click event listener on `<button class="btn btn-sauce">`
 document.querySelector('.btn.btn-sauce').addEventListener('click', function () {
   state.whiteSauce = !state.whiteSauce;
-  if (state.whiteSauce) {
-    finalPrice += 3;
-  } else {
-    finalPrice -= 3;
-  }
+
   renderEverything();
 });
-
-document.querySelector('.btn.btn-crust').addEventListener('click', function () {
-  state.glutenFreeCrust = !state.glutenFreeCrust;
-  if (state.glutenFreeCrust) {
-    finalPrice += 5;
-  } else {
-    finalPrice -= 5;
-  }
-  renderEverything();
-});
-
-// Iteration 1: Add click event listener on `<button class="btn btn-mushrooms">`
-
-// Iteration 1: Add click event listener on `<button class="btn btn-green-peppers">`
-
-// Iteration 2: Add click event listener on `<button class="btn btn-sauce">`
 
 // Iteration 2: Add click event listener on `<button class="btn btn-crust">`
+document.querySelector('.btn.btn-crust').addEventListener('click', function () {
+  state.glutenFreeCrust = !state.glutenFreeCrust;
+
+  renderEverything();
+});
